@@ -1,0 +1,17 @@
+# 🕵️ Penetration Testing Lab
+
+## Objective
+Conduct offensive security testing on Metasploitable3.
+
+## Steps
+1. Run Nmap scans to identify services.
+2. Use vulnerability scanners (e.g., `nmap --script vuln`).
+3. Exploit services using Metasploit.
+4. Perform post-exploitation:
+   - Privilege escalation
+   - Credential harvesting
+5. Document attack chain and remediation.
+
+## Outcome
+- Penetration test report
+- MITRE ATT&CK mapping of TTPs

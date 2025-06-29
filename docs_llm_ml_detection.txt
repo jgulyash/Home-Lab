@@ -1,0 +1,16 @@
+# 🤖 LLM/ML-Assisted Threat Detection
+
+## Objective
+Use machine learning and LLMs for security log analysis.
+
+## Steps
+1. Install Jupyter Notebook on Ubuntu.
+2. Load logs from Wazuh, firewall, or endpoints.
+3. Apply:
+   - Anomaly detection (`IsolationForest`, clustering)
+   - NLP with OpenAI API for summarizing logs
+4. Automate detection or triage.
+
+## Outcome
+- Jupyter notebooks for analysis
+- ML-powered detection models

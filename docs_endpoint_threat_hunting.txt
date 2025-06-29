@@ -1,0 +1,22 @@
+# 🎯 Endpoint Threat Hunting & Forensics
+
+## Objective
+Hunt for adversary TTPs, persistence, and lateral movement across Windows, Linux, and MacOS.
+
+## Steps
+1. Install Sysmon (Windows) and AuditD (Linux).
+2. Deploy Wazuh agents for log collection.
+3. Perform adversary simulations:
+   - Credential harvesting (Mimikatz)
+   - Reverse shells (`msfvenom`)
+   - Fileless malware testing
+4. Investigate:
+   - Process tree anomalies
+   - Unauthorized remote connections
+   - Registry and cron persistence
+5. Develop detection rules for Wazuh.
+6. Document investigation workflow.
+
+## Outcome
+- Detection use cases
+- Hunt hypothesis checklist

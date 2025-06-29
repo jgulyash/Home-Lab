@@ -1,0 +1,27 @@
+# 🔥 SOC Operations Simulation
+
+## Objective
+Simulate SOC workflows using Wazuh SIEM, OPNsense + Zenarmor (NextGen firewall), and Suricata/Snort IDS to detect threats in a controlled lab.
+
+## Steps
+1. Deploy Wazuh server and agents (Windows, Ubuntu, Kali).
+2. Configure log shipping from firewall, NAS, and endpoints.
+3. Enable and tune IDS/IPS in OPNsense.
+4. Simulate attacks:
+   - Nmap scans
+   - Brute-force logins (`hydra`)
+   - Simple phishing attempts
+5. Create detection rules in Wazuh.
+6. Develop alerting thresholds.
+7. Document findings and lessons.
+
+## Tools
+- Wazuh
+- OPNsense + Zenarmor
+- Suricata or Snort
+- Kali Linux (attacker)
+
+## Outcome
+- Custom dashboards
+- Alert playbooks
+- Improved detection coverage

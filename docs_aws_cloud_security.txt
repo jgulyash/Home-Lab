@@ -1,0 +1,17 @@
+# ☁️ AWS Cloud Security & IR
+
+## Objective
+Simulate cloud misconfigurations and incident response.
+
+## Steps
+1. Deploy EC2 and S3 with intentional misconfigurations.
+2. Simulate attacks:
+   - Public S3 data scraping
+   - SSH brute force
+3. Monitor with GuardDuty and CloudTrail.
+4. Analyze logs for signs of attack.
+5. Write a response playbook.
+
+## Outcome
+- Cloud security misconfiguration lessons
+- Detection and response checklist
