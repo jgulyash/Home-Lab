@@ -1,0 +1,41 @@
+# 🚨 Incident Response Playbook
+
+## Objective
+Provide a standardized approach for detecting, investigating, containing, and remediating incidents within the home lab.
+
+## Phases
+
+### 1. **Preparation:**
+- Verify logging (Wazuh, firewall, IDS)
+- Update detection rules
+- Snapshot vulnerable systems
+
+### 2. **Detection & Analysis:**
+- Review alerts from Wazuh, firewall, IDS
+- Correlate logs (endpoint + network)
+- Identify Indicators of Compromise (IOCs)
+- Validate with threat intelligence sources
+
+### 3. **Containment:**
+- Isolate affected VM(s)
+- Block malicious IPs on firewall
+- Disable compromised accounts
+
+### 4. **Eradication:**
+- Remove malware or backdoors
+- Reset credentials
+- Patch vulnerabilities
+
+### 5. **Recovery:**
+- Restore from clean snapshots
+- Monitor closely for recurrence
+- Verify system integrity
+
+### 6. **Post-Incident Activity:**
+- Write incident report
+- Update detection rules based on findings
+- Conduct lessons learned session
+
+## Outcome
+- Documented IR lifecycle per incident
+- Improved future readiness

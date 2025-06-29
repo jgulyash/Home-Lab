@@ -1,0 +1,41 @@
+# 🕵️ Dark Web Threat Intelligence Playbook
+
+## Objective
+Conduct threat intelligence collection and analysis from dark web forums, marketplaces, and hidden services.
+
+## Steps
+
+### 1. **Preparation:**
+- Deploy isolated Ubuntu VM
+- Install Tor Browser
+- Apply OPSEC measures (VPN, clean VM snapshot)
+
+### 2. **Collection:**
+- Access .onion forums via Tor
+- Use Ahmia or other .onion search engines
+- Capture relevant discussions, posts, or listings related to malware, exploits, or leaks
+
+### 3. **IOC Extraction:**
+- Identify:
+  - Email addresses
+  - Domains
+  - IP addresses
+  - Hashes
+  - Malware download links
+
+### 4. **Analysis:**
+- Correlate data with known threat actors or campaigns
+- Map TTPs to MITRE ATT&CK
+
+### 5. **Reporting:**
+- Document findings in an intel report
+- Share IOCs into SIEM (Wazuh) for monitoring
+
+### 6. **Post-Collection:**
+- Delete VM snapshot
+- Refresh OPSEC tools
+- Update threat profiles
+
+## Outcome
+- Threat intelligence report
+- IOC database for proactive defense

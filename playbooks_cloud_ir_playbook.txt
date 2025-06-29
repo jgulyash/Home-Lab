@@ -1,0 +1,44 @@
+# ☁️ Cloud Security Incident Response Playbook
+
+## Objective
+Respond to AWS cloud security incidents involving misconfigurations, compromised credentials, or attacks.
+
+## Steps
+
+### 1. **Preparation:**
+- Enable GuardDuty, CloudTrail, Config
+- Configure AWS Security Hub
+- Define IAM roles and policies for incident response
+
+### 2. **Detection:**
+- Review GuardDuty findings
+- Check CloudTrail for anomalous events
+- Identify misconfigured resources (S3, EC2, IAM)
+
+### 3. **Analysis:**
+- Correlate API calls with suspicious activities
+- Investigate IAM credential usage
+- Determine if data exfiltration occurred
+
+### 4. **Containment:**
+- Rotate keys and credentials
+- Remove malicious IAM roles or users
+- Restrict security groups
+
+### 5. **Eradication:**
+- Remove persistence (backdoor roles, Lambda functions)
+- Patch exposed services
+
+### 6. **Recovery:**
+- Validate cloud resource integrity
+- Restore secure configurations
+- Resume services
+
+### 7. **Post-Incident:**
+- Write IR report
+- Update AWS Config rules
+- Improve IAM policies and detection rules
+
+## Outcome
+- Documented cloud IR process
+- Hardened cloud posture

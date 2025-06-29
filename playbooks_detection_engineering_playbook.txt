@@ -1,0 +1,36 @@
+# 🎯 Detection Engineering Playbook
+
+## Objective
+Develop and deploy detection rules for SOC operations using Wazuh, OPNsense, and IDS/IPS.
+
+## Steps
+1. **Log Source Inventory:**
+   - Endpoint (Sysmon, AuditD)
+   - Firewall (OPNsense)
+   - IDS/IPS (Suricata/Snort)
+   - Cloud logs (AWS GuardDuty, CloudTrail)
+2. **Data Normalization:**
+   - Use Wazuh decoders to standardize logs.
+3. **Identify Use Cases:**
+   - Port scanning
+   - Brute-force attacks
+   - Malware execution
+   - Credential access attempts
+4. **Rule Development:**
+   - Create Wazuh rules based on log patterns.
+   - Implement firewall alerts for suspicious traffic.
+5. **Test Detection:**
+   - Simulate attacks from Kali.
+   - Confirm rule triggers.
+6. **Tune:**
+   - Reduce false positives.
+   - Enhance rule specificity.
+7. **Deploy to Production:**
+   - Move tested rules to active monitoring.
+8. **Documentation:**
+   - Update rule registry.
+   - Link to MITRE ATT&CK techniques.
+
+## Outcome
+- Active detection rule set
+- Mapped use cases to MITRE ATT&CK
