@@ -4,11 +4,16 @@
 Collect and analyze threat intel from dark web sources.
 
 ## Steps
-1. Deploy Ubuntu VM with Tor.
-2. Explore .onion forums (using Ahmia, etc.).
-3. Collect relevant TTPs and IOCs.
-4. Map to threat actor profiles.
-5. Document and report findings securely.
+1. Utilize a VPN-configured router for TOR over VPN layering.
+2. Deploy Tails from a USB on a clean stand-alone machine.
+3. Close all other apps that may be open on Tails.
+4. Ensure JavaScript is disabled on the Tor browser.
+5. NEVER reveal personal information. 
+6. Optional: Create a digitally backstopped alias.
+7. Explore .onion forums (using Ahmia, etc.).
+8. Collect relevant TTPs and IOCs.
+9. Map to threat actor profiles.
+10. Document and report findings securely.
 
 ## Outcome
 - Threat intelligence report
