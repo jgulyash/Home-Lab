@@ -1,4 +1,4 @@
-# 🔐 Cybersecurity Home Lab Projects - Jay Gulyash
+# Home Lab Projects
 
 Welcome to my **Cybersecurity Home Lab Projects** repository—a living documentation of my hands-on journey into offensive and defensive cybersecurity. This lab is designed to emulate real-world environments where I develop, refine, and enhance my capabilities across the cybersecurity spectrum, including **SOC operations, threat hunting, penetration testing, malware analysis, cloud security, and dark web intelligence**.
 
@@ -17,7 +17,7 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-## 💽 Home Lab Setup
+## Home Lab Setup
 
 | Component        | Description                                           |
 |------------------|-------------------------------------------------------|
@@ -28,21 +28,21 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-## 🎯 Goals
+## Goals
 
-- ✅ Simulate SOC operations, incident response, and detection engineering.
-- ✅ Perform endpoint threat hunting across Windows, Linux, and MacOS.
-- ✅ Conduct penetration testing and post-exploitation analysis.
-- ✅ Analyze malware and develop detection rules aligned to MITRE ATT&CK.
-- ✅ Explore AWS cloud security, misconfigurations, and detection.
-- ✅ Conduct dark web intelligence collection and analysis.
-- ✅ Build and experiment with LLM/ML-assisted threat detection.
+- Simulate SOC operations, incident response, and detection engineering.
+- Perform endpoint threat hunting across Windows, Linux, and MacOS.
+- Conduct penetration testing and post-exploitation analysis.
+- Analyze malware and develop detection rules aligned to MITRE ATT&CK.
+- Explore AWS cloud security, misconfigurations, and detection.
+- Conduct dark web intelligence collection and analysis.
+- Build and experiment with LLM/ML-assisted threat detection.
 
 ---
 
-## 🚀 Projects
+## Projects
 
-### 🔥 SOC Operations Simulation
+### SOC Operations Simulation
 
 **Objective:** Build a SOC environment with Wazuh SIEM, IDS/IPS (Snort/Suricata), and OPNsense firewall for detection engineering.
 
@@ -56,7 +56,7 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-### 🎯 Endpoint Threat Hunting & Forensics
+### Endpoint Threat Hunting & Forensics
 
 **Objective:** Detect adversary behavior, persistence, and evasion techniques on multiple OS endpoints.
 
@@ -72,7 +72,7 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-### 🕵️ Penetration Testing Lab
+### Penetration Testing Lab
 
 **Objective:** Perform vulnerability discovery and exploitation against Metasploitable3.
 
@@ -86,7 +86,7 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-### 🧐 Malware Analysis & Detection Engineering
+### Malware Analysis & Detection Engineering
 
 **Objective:** Analyze malware samples to craft detection rules.
 
@@ -100,7 +100,7 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-### ☁️ AWS Cloud Security & Incident Response
+### AWS Cloud Security & Incident Response
 
 **Objective:** Understand and detect AWS cloud security threats.
 
@@ -114,7 +114,7 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-### 🔍 Dark Web Threat Intelligence
+### Dark Web Threat Intelligence
 
 **Objective:** Develop threat intelligence collection and analysis skills.
 
@@ -127,7 +127,7 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-### 🤖 LLM/ML-Assisted Threat Detection
+### LLM/ML-Assisted Threat Detection
 
 **Objective:** Automate threat detection using machine learning and LLMs.
 
@@ -141,7 +141,7 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-## 📺 Execution Roadmap
+## Execution Roadmap
 
 | Priority | Project                               | Status     |
 |----------|----------------------------------------|------------|
@@ -155,7 +155,7 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-## 📚 References
+## References
 
 - [MITRE ATT&CK](https://attack.mitre.org/)
 - [Wazuh Documentation](https://documentation.wazuh.com/)
@@ -166,13 +166,13 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
-## 📜 License
+## License
 
 This repository is for educational purposes only. All activities are conducted within isolated and legally authorized lab environments. No actions are taken against unauthorized systems or networks.
 
 ---
 
-## 👾 Contact
+## Contact
 
 **Jay Gulyash**  
-[LinkedIn](#) | [Website](https://furywrenlabs.io) | gulyash@yahoo.com
+[LinkedIn](www.linkedin.com/in/jay-gulyash-750489207) | [Website](https://furywrenlabs.io) | gulyash@yahoo.com
