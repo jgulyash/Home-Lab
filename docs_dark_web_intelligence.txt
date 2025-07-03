@@ -1,4 +1,4 @@
-# 🔍 Dark Web Threat Intelligence
+# Dark Web Threat Intelligence
 
 ## Objective
 Collect and analyze threat intel from dark web sources.
@@ -12,8 +12,9 @@ Collect and analyze threat intel from dark web sources.
 6. Optional: Create a digitally backstopped alias.
 7. Explore .onion forums (using Ahmia, etc.).
 8. Collect relevant TTPs and IOCs.
-9. Map to threat actor profiles.
-10. Document and report findings securely.
+9. Sanitize software and hardware when finished exploring/collecting
+10. Map to threat actor profiles.
+11. Document and report findings securely.
 
 ## Outcome
 - Threat intelligence report
