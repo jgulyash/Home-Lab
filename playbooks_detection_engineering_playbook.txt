@@ -9,6 +9,7 @@ Develop and deploy detection rules for SOC operations using Wazuh, OPNsense, and
    - Firewall (OPNsense)
    - IDS/IPS (Suricata/Snort)
    - Cloud logs (AWS GuardDuty, CloudTrail)
+   - Wireshark pcap files
 2. **Data Normalization:**
    - Use Wazuh decoders to standardize logs.
 3. **Identify Use Cases:**
