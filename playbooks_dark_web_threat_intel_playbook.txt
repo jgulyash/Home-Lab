@@ -1,14 +1,15 @@
-# 🕵️ Dark Web Threat Intelligence Playbook
+# Dark Web Threat Intelligence Playbook
 
 ## Objective
 Conduct threat intelligence collection and analysis from dark web forums, marketplaces, and hidden services.
 
-## Steps
-
 ### 1. **Preparation:**
-- Deploy isolated Ubuntu VM
-- Install Tor Browser
-- Apply OPSEC measures (VPN, clean VM snapshot)
+- Utilize a VPN-configured router for TOR over VPN layering.
+- Deploy Tails from a USB on a clean stand-alone machine 
+- Close all other apps that may be open on Tails.
+- Ensure JavaScript is disabled on the Tor browser.
+- NEVER reveal personal information. 
+- Optional: Create a digitally backstopped alias.
 
 ### 2. **Collection:**
 - Access .onion forums via Tor
@@ -32,7 +33,7 @@ Conduct threat intelligence collection and analysis from dark web forums, market
 - Share IOCs into SIEM (Wazuh) for monitoring
 
 ### 6. **Post-Collection:**
-- Delete VM snapshot
+- Purge any saved files from Tails USB
 - Refresh OPSEC tools
 - Update threat profiles
 
