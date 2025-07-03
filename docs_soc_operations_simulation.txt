@@ -1,7 +1,7 @@
-# 🔥 SOC Operations Simulation
+# SOC Operations Simulation
 
 ## Objective
-Simulate SOC workflows using Wazuh SIEM, OPNsense + Zenarmor (NextGen firewall), and Suricata/Snort IDS to detect threats in a controlled lab.
+Simulate SOC workflows using Wazuh SIEM, OPNsense + Zenarmor (NextGen firewall), Wireshark/Tcpdump (packer sniffers) and Suricata/Snort IDS to detect threats in a controlled lab.
 
 ## Steps
 1. Deploy Wazuh server and agents (Windows, Ubuntu, Kali).
@@ -13,7 +13,8 @@ Simulate SOC workflows using Wazuh SIEM, OPNsense + Zenarmor (NextGen firewall),
    - Simple phishing attempts
 5. Create detection rules in Wazuh.
 6. Develop alerting thresholds.
-7. Document findings and lessons.
+7. Deploy and enable Wireshark against WiFi network adaptor
+8. Document findings and lessons.
 
 ## Tools
 - Wazuh
