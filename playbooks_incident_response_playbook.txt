@@ -1,4 +1,4 @@
-# 🚨 Incident Response Playbook
+# Incident Response Playbook
 
 ## Objective
 Provide a standardized approach for detecting, investigating, containing, and remediating incidents within the home lab.
