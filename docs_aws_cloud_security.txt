@@ -1,4 +1,4 @@
-# ☁️ AWS Cloud Security & IR
+# AWS Cloud Security & IR
 
 ## Objective
 Simulate cloud misconfigurations and incident response.
