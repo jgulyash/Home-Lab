@@ -1,4 +1,4 @@
-# 🕵️ Penetration Testing Lab
+# Penetration Testing Lab
 
 ## Objective
 Conduct offensive security testing on Metasploitable3.
