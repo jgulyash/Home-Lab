@@ -1,8 +1,8 @@
-# 📂 Documentation
+# Documentation
 
 This folder contains detailed guides for each project in the Cybersecurity Home Lab. Each guide includes setup steps, tooling instructions, objectives, and outcome documentation to guide hands-on learning and development.
 
-## 📂 Contents
+## Contents
 
 - [SOC Operations Simulation](./SOC_Operations_Simulation.md)
 - [Endpoint Threat Hunting](./Endpoint_Threat_Hunting.md)
