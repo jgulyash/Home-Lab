@@ -1,4 +1,4 @@
-# 🎯 Endpoint Threat Hunting & Forensics
+# Endpoint Threat Hunting & Forensics
 
 ## Objective
 Hunt for adversary TTPs, persistence, and lateral movement across Windows, Linux, and MacOS.
