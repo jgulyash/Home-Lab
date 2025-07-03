@@ -1,4 +1,4 @@
-# 🎯 Detection Engineering Playbook
+# Detection Engineering Playbook
 
 ## Objective
 Develop and deploy detection rules for SOC operations using Wazuh, OPNsense, and IDS/IPS.
