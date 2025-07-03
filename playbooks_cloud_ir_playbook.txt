@@ -1,4 +1,4 @@
-# ☁️ Cloud Security Incident Response Playbook
+# Cloud Security Incident Response Playbook
 
 ## Objective
 Respond to AWS cloud security incidents involving misconfigurations, compromised credentials, or attacks.
