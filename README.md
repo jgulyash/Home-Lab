@@ -119,11 +119,17 @@ All activities occur within a fully isolated, self-contained, and legally compli
 **Objective:** Develop threat intelligence collection and analysis skills.
 
 **Steps:**
-1. Deploy a secure Ubuntu VM for Tor browsing.
-2. Use Tor Browser and Ahmia to navigate .onion sites.
-3. Collect intelligence (TTPs, IOCs) from forums and marketplaces.
-4. Map findings to MITRE ATT&CK or adversary profiles.
-5. Produce an intelligence report.
+1. Utilize a VPN-configured router for TOR over VPN layering.
+2. Deploy Tails from a USB on a clean stand-alone machine.
+3. Close all other apps that may be open on Tails.
+4. Ensure JavaScript is disabled on the Tor browser.
+5. NEVER reveal personal information. 
+6. Optional: Create a digitally backstopped alias.
+7. Explore .onion forums (using Ahmia, etc.).
+8. Collect relevant TTPs and IOCs.
+9. Sanitize software and hardware when finished exploring/collecting
+10. Map to threat actor profiles.
+11. Document and report findings securely.
 
 ---
 
@@ -175,4 +181,4 @@ This repository is for educational purposes only. All activities are conducted w
 ## Contact
 
 **Jay Gulyash**  
-[LinkedIn](www.linkedin.com/in/jay-gulyash-750489207) | [Website](https://furywrenlabs.io) | gulyash@yahoo.com
+[LinkedIn](www.linkedin.com/in/jay-gulyash-750489207) | [Website](https://furywrenlabs.io)
