@@ -1,6 +1,6 @@
 # Home Lab Projects
 
-Welcome to my **Cybersecurity Home Lab Projects** repository—a dynamic record of my lab activity designed to emulate real-world environments where I'm continuously developing, refining, and enhancing my capabilities across the cybersecurity spectrum, including **SOC operations, threat hunting, penetration testing, malware analysis, cloud security, and dark web intelligence**.
+Welcome to my **Cybersecurity Home Lab Projects** repository—a dynamic record of my lab activity designed to emulate real-world environments where I'm continuously developing, refining, and enhancing my capabilities across the cybersecurity and human risk spectrum, including **SOC operations, threat hunting, penetration testing, malware analysis, cloud security, and dark web intelligence**.
 
 The goal of this lab is to simulate modern threat landscapes while practicing both **attack and defense methodologies**. Each project is aligned with industry-standard frameworks like the **MITRE ATT&CK** and includes end-to-end workflows—from adversary emulation to detection engineering and incident response.
 
