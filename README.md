@@ -1,10 +1,11 @@
 # Home Lab Projects
 
-Welcome to my **Cybersecurity Home Lab Projects** repository—a dynamic record of my lab activity designed to emulate real-world environments where I'm continuously developing, refining, and enhancing my capabilities across the cybersecurity and human risk spectrum, including **SOC operations, threat hunting, penetration testing, malware analysis, cloud security, and dark web intelligence**.
+Welcome to my **AI & Cyber Home Lab Projects** repository—a dynamic record of my lab activity designed to emulate real-world environments where I'm continuously developing, refining, and enhancing my capabilities across the cybersecurity and human risk spectrum, including **threat hunting, penetration testing, malware analysis, cloud security, dark web intelligence, and SOC operations**.
 
 The goal of this lab is to simulate modern threat landscapes while practicing **attack and defense methodologies** to better assess human risk exposure and offer proactive solutions. Each project is aligned with industry-standard frameworks like the **MITRE ATT&CK** and includes end-to-end workflows—from adversary emulation to detection engineering and incident response.
 
 This repository not only tracks technical implementations but also serves as a blueprint for:
+- Agentic-AI intelligence analytics.
 - Deploying and tuning SIEM and IDS/IPS/XDR systems.
 - Investigating endpoint and network threats.
 - Executing penetration tests safely in a controlled environment.
@@ -30,31 +31,18 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ## Goals
 
-- Simulate SOC operations, incident response, and detection engineering.
+- Build agentic-AI intelligence analytics.
 - Perform endpoint threat hunting across Windows, Linux, and MacOS.
 - Conduct penetration testing and post-exploitation analysis.
 - Analyze malware and develop detection rules aligned to MITRE ATT&CK.
 - Explore AWS cloud security, misconfigurations, and detection.
 - Conduct dark web intelligence collection and analysis.
 - Build and experiment with LLM/ML-assisted threat detection.
+- Simulate SOC operations, incident response, and detection engineering.
 
 ---
 
 ## Projects
-
-### SOC Operations Simulation
-
-**Objective:** Build a SOC environment with Wazuh SIEM, IDS/IPS (Snort/Suricata), and OPNsense firewall for detection engineering.
-
-**Steps:**
-1. Deploy Wazuh server and agents (Windows, Linux, MacOS).
-2. Configure OPNsense + Zenarmor for IDS/IPS.
-3. Simulate attacks (Nmap, brute force, phishing) via Kali.
-4. Correlate firewall and endpoint logs in Wazuh.
-5. Create dashboards and alerts.
-6. Document detection processes and improvements.
-
----
 
 ### Endpoint Threat Hunting & Forensics
 
@@ -147,17 +135,31 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
+### SOC Operations Simulation
+
+**Objective:** Build a SOC environment with Wazuh SIEM, IDS/IPS (Snort/Suricata), and OPNsense firewall for detection engineering.
+
+**Steps:**
+1. Deploy Wazuh server and agents (Windows, Linux, MacOS).
+2. Configure OPNsense + Zenarmor for IDS/IPS.
+3. Simulate attacks (Nmap, brute force, phishing) via Kali.
+4. Correlate firewall and endpoint logs in Wazuh.
+5. Create dashboards and alerts.
+6. Document detection processes and improvements.
+
+---
+
 ## Execution Roadmap
 
 | Priority | Project                               | Status     |
 |----------|----------------------------------------|------------|
-| 🥇       | SOC Operations Simulation              | 🔲 Planned |
 | 🥈       | Endpoint Threat Hunting & Forensics    | 🔲 Planned |
 | 🥉       | Penetration Testing Lab                | 🔲 Planned |
 | 🏅       | Malware Analysis & Detection Engineering| 🔲 Planned |
 | 🏅       | AWS Cloud Security                     | 🔲 Planned |
 | 🏅       | Dark Web Threat Intelligence           | 🔲 Planned |
 | 🏅       | LLM/ML-Assisted Threat Detection       | 🔲 Planned |
+| 🥇       | SOC Operations Simulation              | 🔲 Planned |
 
 ---
 
@@ -181,4 +183,4 @@ This repository is for educational purposes only. All activities are conducted w
 ## Contact
 
 **Jay Gulyash**  
-[LinkedIn](www.linkedin.com/in/jay-gulyash-750489207) | [Website](https://furywrenlabs.io)
+[LinkedIn](www.linkedin.com/in/jay-gulyash-750489207) #| [Website](https://furywrenlabs.io)
