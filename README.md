@@ -183,4 +183,4 @@ This repository is for educational purposes only. All activities are conducted w
 ## Contact
 
 **Jay Gulyash**  
-[LinkedIn](www.linkedin.com/in/jay-gulyash-750489207) #| [Website](https://furywrenlabs.io)
+[LinkedIn](www.linkedin.com/in/jay-gulyash-750489207)
