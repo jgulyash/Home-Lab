@@ -149,17 +149,50 @@ All activities occur within a fully isolated, self-contained, and legally compli
 
 ---
 
+## 🤖 AI-Powered Automation (NEW!)
+
+### Quick Start
+```bash
+# Setup and start AI-powered agents
+./scripts/setup.sh
+./scripts/start.sh
+
+# Access dashboards
+# Grafana: http://localhost:3000
+# Celery Flower: http://localhost:5555
+```
+
+### AI Agents
+- **Threat Detection Agent**: ML anomaly detection + LLM analysis (runs hourly)
+- **Incident Response Agent**: Automated investigation and containment
+- **Threat Intelligence Agent**: IOC collection and correlation (every 4 hours)
+- **Malware Analysis Agent**: Automated static/dynamic analysis + YARA generation
+- **Detection Engineering Agent**: Auto-generate detection rules for MITRE techniques
+- **Vulnerability Management Agent**: Automated scanning and prioritization (daily)
+
+### Automated Workflows
+- Continuous threat hunting with LLM-powered hypotheses
+- Automatic alert triage and investigation
+- Incident response with auto-containment
+- Threat intelligence pipeline
+- Daily SOC reports
+
+**See [AI_ARCHITECTURE.md](AI_ARCHITECTURE.md) for full architecture**
+**See [SETUP.md](SETUP.md) for setup instructions**
+
+---
+
 ## Execution Roadmap
 
 | Priority | Project                               | Status     |
 |----------|----------------------------------------|------------|
+| 🥇       | AI-Powered Security Automation         | ✅ Complete |
+| 🥇       | SOC Operations Simulation              | ✅ Complete |
 | 🥈       | Endpoint Threat Hunting & Forensics    | 🔲 Planned |
 | 🥉       | Penetration Testing Lab                | 🔲 Planned |
 | 🏅       | Malware Analysis & Detection Engineering| 🔲 Planned |
 | 🏅       | AWS Cloud Security                     | 🔲 Planned |
 | 🏅       | Dark Web Threat Intelligence           | 🔲 Planned |
-| 🏅       | LLM/ML-Assisted Threat Detection       | 🔲 Planned |
-| 🥇       | SOC Operations Simulation              | 🔲 Planned |
 
 ---
 

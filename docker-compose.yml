@@ -1,0 +1,248 @@
+version: '3.8'
+
+services:
+  # AI Agent Orchestrator
+  agent-orchestrator:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.orchestrator
+    container_name: ai-agent-orchestrator
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - WAZUH_API_URL=${WAZUH_API_URL}
+      - WAZUH_API_USER=${WAZUH_API_USER}
+      - WAZUH_API_PASSWORD=${WAZUH_API_PASSWORD}
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://seclab:seclab@postgres:5432/securitylab
+    depends_on:
+      - redis
+      - postgres
+      - rabbitmq
+    volumes:
+      - ./agents:/app/agents
+      - ./workflows:/app/workflows
+      - ./config:/app/config
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # Threat Detection Agent
+  threat-detection-agent:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.agent
+    container_name: threat-detection-agent
+    environment:
+      - AGENT_TYPE=threat_detection
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - rabbitmq
+    volumes:
+      - ./agents/threat_detection:/app/agent
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # Incident Response Agent
+  incident-response-agent:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.agent
+    container_name: incident-response-agent
+    environment:
+      - AGENT_TYPE=incident_response
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - WAZUH_API_URL=${WAZUH_API_URL}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - rabbitmq
+    volumes:
+      - ./agents/incident_response:/app/agent
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # Threat Intelligence Agent
+  threat-intel-agent:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.agent
+    container_name: threat-intel-agent
+    environment:
+      - AGENT_TYPE=threat_intelligence
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
+      - ALIENVAULT_API_KEY=${ALIENVAULT_API_KEY}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - rabbitmq
+      - chroma
+    volumes:
+      - ./agents/threat_intelligence:/app/agent
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: seclab-postgres
+    environment:
+      - POSTGRES_DB=securitylab
+      - POSTGRES_USER=seclab
+      - POSTGRES_PASSWORD=seclab
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: seclab-redis
+    volumes:
+      - redis-data:/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # RabbitMQ Message Queue
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: seclab-rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=seclab
+      - RABBITMQ_DEFAULT_PASS=seclab
+    ports:
+      - "15672:15672"  # Management UI
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # Chroma Vector Database
+  chroma:
+    image: chromadb/chroma:latest
+    container_name: seclab-chroma
+    volumes:
+      - chroma-data:/chroma/chroma
+    environment:
+      - ANONYMIZED_TELEMETRY=False
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # Celery Worker
+  celery-worker:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.orchestrator
+    container_name: celery-worker
+    command: celery -A workflows.celery_app worker --loglevel=info
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://seclab:seclab@postgres:5432/securitylab
+    depends_on:
+      - redis
+      - rabbitmq
+      - postgres
+    volumes:
+      - ./workflows:/app/workflows
+      - ./agents:/app/agents
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # Celery Beat (Scheduler)
+  celery-beat:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.orchestrator
+    container_name: celery-beat
+    command: celery -A workflows.celery_app beat --loglevel=info
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - rabbitmq
+    volumes:
+      - ./workflows:/app/workflows
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # Flower (Celery Monitoring)
+  flower:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.orchestrator
+    container_name: celery-flower
+    command: celery -A workflows.celery_app flower --port=5555
+    ports:
+      - "5555:5555"
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - celery-worker
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # Grafana Dashboard
+  grafana:
+    image: grafana/grafana:latest
+    container_name: seclab-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./dashboards:/etc/grafana/provisioning/dashboards
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+  # Prometheus Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: seclab-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - seclab-network
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:
+  chroma-data:
+  grafana-data:
+  prometheus-data:
+
+networks:
+  seclab-network:
+    driver: bridge

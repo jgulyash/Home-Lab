@@ -1,0 +1,35 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'security-lab'
+
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Agent metrics (if exposed)
+  - job_name: 'agents'
+    static_configs:
+      - targets:
+        - 'agent-orchestrator:8000'
+        - 'threat-detection-agent:8000'
+        - 'incident-response-agent:8000'
+        - 'threat-intel-agent:8000'
+
+  # Celery metrics
+  - job_name: 'celery'
+    static_configs:
+      - targets: ['flower:5555']
+
+  # PostgreSQL exporter (if configured)
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres:5432']
+
+  # Redis exporter (if configured)
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
