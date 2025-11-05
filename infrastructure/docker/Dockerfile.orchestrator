@@ -1,0 +1,31 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY agents/ /app/agents/
+COPY workflows/ /app/workflows/
+COPY config/ /app/config/
+
+# Create data directories
+RUN mkdir -p /app/data/logs /app/data/reports /app/data/iocs /app/data/models
+
+# Set Python path
+ENV PYTHONPATH=/app
+
+# Default command
+CMD ["python", "-m", "workflows.celery_app"]

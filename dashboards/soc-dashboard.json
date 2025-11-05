@@ -1,0 +1,84 @@
+{
+  "dashboard": {
+    "title": "SOC Operations Dashboard",
+    "panels": [
+      {
+        "title": "Threats Detected (24h)",
+        "type": "stat",
+        "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4},
+        "targets": [
+          {
+            "expr": "sum(threats_detected_total)"
+          }
+        ]
+      },
+      {
+        "title": "Active Incidents",
+        "type": "stat",
+        "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4},
+        "targets": [
+          {
+            "expr": "sum(incidents_active)"
+          }
+        ]
+      },
+      {
+        "title": "IOCs Collected (24h)",
+        "type": "stat",
+        "gridPos": {"x": 12, "y": 0, "w": 6, "h": 4},
+        "targets": [
+          {
+            "expr": "sum(iocs_collected_total)"
+          }
+        ]
+      },
+      {
+        "title": "Detection Coverage",
+        "type": "stat",
+        "gridPos": {"x": 18, "y": 0, "w": 6, "h": 4},
+        "targets": [
+          {
+            "expr": "detection_coverage_percent"
+          }
+        ]
+      },
+      {
+        "title": "Threat Severity Distribution",
+        "type": "piechart",
+        "gridPos": {"x": 0, "y": 4, "w": 12, "h": 8},
+        "targets": [
+          {
+            "expr": "sum by (severity) (threats_by_severity)"
+          }
+        ]
+      },
+      {
+        "title": "MITRE ATT&CK Coverage Heatmap",
+        "type": "heatmap",
+        "gridPos": {"x": 12, "y": 4, "w": 12, "h": 8},
+        "targets": [
+          {
+            "expr": "mitre_technique_detections"
+          }
+        ]
+      },
+      {
+        "title": "Agent Performance",
+        "type": "graph",
+        "gridPos": {"x": 0, "y": 12, "w": 24, "h": 8},
+        "targets": [
+          {
+            "expr": "rate(agent_execution_duration_seconds[5m])",
+            "legendFormat": "{{agent_name}}"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "from": "now-24h",
+      "to": "now"
+    },
+    "timezone": "browser",
+    "version": 1
+  }
+}
