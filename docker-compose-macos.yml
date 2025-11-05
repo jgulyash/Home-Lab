@@ -1,0 +1,453 @@
+version: '3.8'
+
+# Docker Compose for macOS (Apple Silicon optimized)
+# Optimized for MacBook Pro M4 Max with 36GB RAM
+
+services:
+  # Ollama - Local LLM (runs on host for best M4 Max performance)
+  # NOTE: Install Ollama on host: brew install ollama
+  # This service just ensures connectivity
+
+  # AI Agent Orchestrator
+  agent-orchestrator:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.orchestrator
+      platforms:
+        - linux/arm64  # Apple Silicon
+    container_name: ai-agent-orchestrator
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - USE_LOCAL_LLM=true
+      - OLLAMA_MODEL=llama3.1:8b
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - WAZUH_API_URL=${WAZUH_API_URL}
+      - WAZUH_API_USER=${WAZUH_API_USER}
+      - WAZUH_API_PASSWORD=${WAZUH_API_PASSWORD}
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://seclab:seclab@postgres:5432/securitylab
+    depends_on:
+      - redis
+      - postgres
+      - rabbitmq
+    volumes:
+      - ./agents:/app/agents
+      - ./workflows:/app/workflows
+      - ./config:/app/config
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    # For Apple Silicon
+    platform: linux/arm64
+
+  # Threat Detection Agent
+  threat-detection-agent:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.agent
+      platforms:
+        - linux/arm64
+    container_name: threat-detection-agent
+    environment:
+      - AGENT_TYPE=threat_detection
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - USE_LOCAL_LLM=true
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - rabbitmq
+    volumes:
+      - ./agents/threat_detection:/app/agent
+      - ./agents/common:/app/agents/common
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Incident Response Agent
+  incident-response-agent:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.agent
+      platforms:
+        - linux/arm64
+    container_name: incident-response-agent
+    environment:
+      - AGENT_TYPE=incident_response
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - USE_LOCAL_LLM=true
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - WAZUH_API_URL=${WAZUH_API_URL}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - rabbitmq
+    volumes:
+      - ./agents/incident_response:/app/agent
+      - ./agents/common:/app/agents/common
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Threat Intelligence Agent
+  threat-intel-agent:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.agent
+      platforms:
+        - linux/arm64
+    container_name: threat-intel-agent
+    environment:
+      - AGENT_TYPE=threat_intelligence
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - USE_LOCAL_LLM=true
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
+      - ALIENVAULT_API_KEY=${ALIENVAULT_API_KEY}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - rabbitmq
+      - chroma
+    volumes:
+      - ./agents/threat_intelligence:/app/agent
+      - ./agents/common:/app/agents/common
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Threat Hunting Agent (NEW)
+  threat-hunting-agent:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.agent
+      platforms:
+        - linux/arm64
+    container_name: threat-hunting-agent
+    environment:
+      - AGENT_TYPE=threat_hunting
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - USE_LOCAL_LLM=true
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - WAZUH_API_URL=${WAZUH_API_URL}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - rabbitmq
+    volumes:
+      - ./agents/threat_hunting:/app/agent
+      - ./agents/common:/app/agents/common
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Red Team Agent (NEW)
+  red-team-agent:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.agent
+      platforms:
+        - linux/arm64
+    container_name: red-team-agent
+    environment:
+      - AGENT_TYPE=red_team
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - USE_LOCAL_LLM=true
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - rabbitmq
+    volumes:
+      - ./agents/red_team:/app/agent
+      - ./agents/common:/app/agents/common
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+    # Privileged for network testing (use with caution)
+    cap_add:
+      - NET_ADMIN
+
+  # Web UI (NEW)
+  web-ui:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.webui
+      platforms:
+        - linux/arm64
+    container_name: seclab-webui
+    ports:
+      - "8080:8080"
+    environment:
+      - API_URL=http://agent-orchestrator:8000
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - agent-orchestrator
+      - redis
+    volumes:
+      - ./web-ui:/app
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Slack Bot (NEW)
+  slack-bot:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.slackbot
+      platforms:
+        - linux/arm64
+    container_name: seclab-slackbot
+    environment:
+      - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
+      - SLACK_APP_TOKEN=${SLACK_APP_TOKEN}
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://seclab:seclab@postgres:5432/securitylab
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./slack-bot:/app
+      - ./agents/common:/app/agents/common
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # PostgreSQL Database (ARM optimized)
+  postgres:
+    image: postgres:15-alpine
+    container_name: seclab-postgres
+    environment:
+      - POSTGRES_DB=securitylab
+      - POSTGRES_USER=seclab
+      - POSTGRES_PASSWORD=seclab
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+    shm_size: 256mb  # Optimized for M4 Max
+
+  # Redis Cache (ARM optimized)
+  redis:
+    image: redis:7-alpine
+    container_name: seclab-redis
+    volumes:
+      - redis-data:/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # RabbitMQ Message Queue
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: seclab-rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=seclab
+      - RABBITMQ_DEFAULT_PASS=seclab
+    ports:
+      - "15672:15672"  # Management UI
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Chroma Vector Database
+  chroma:
+    image: chromadb/chroma:latest
+    container_name: seclab-chroma
+    volumes:
+      - chroma-data:/chroma/chroma
+    environment:
+      - ANONYMIZED_TELEMETRY=False
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Celery Worker
+  celery-worker:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.orchestrator
+      platforms:
+        - linux/arm64
+    container_name: celery-worker
+    command: celery -A workflows.celery_app worker --loglevel=info --concurrency=4
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - USE_LOCAL_LLM=true
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://seclab:seclab@postgres:5432/securitylab
+    depends_on:
+      - redis
+      - rabbitmq
+      - postgres
+    volumes:
+      - ./workflows:/app/workflows
+      - ./agents:/app/agents
+      - ./data:/app/data
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Celery Beat (Scheduler)
+  celery-beat:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.orchestrator
+      platforms:
+        - linux/arm64
+    container_name: celery-beat
+    command: celery -A workflows.celery_app beat --loglevel=info
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - rabbitmq
+    volumes:
+      - ./workflows:/app/workflows
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Flower (Celery Monitoring)
+  flower:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.orchestrator
+      platforms:
+        - linux/arm64
+    container_name: celery-flower
+    command: celery -A workflows.celery_app flower --port=5555
+    ports:
+      - "5555:5555"
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - celery-worker
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Grafana Dashboard
+  grafana:
+    image: grafana/grafana:latest
+    container_name: seclab-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./dashboards:/etc/grafana/provisioning/dashboards
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # Prometheus Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: seclab-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # MISP (Threat Intelligence Platform) - NEW
+  misp:
+    image: coolacid/misp-docker:core-latest
+    container_name: seclab-misp
+    ports:
+      - "8443:443"
+    environment:
+      - MYSQL_HOST=misp-db
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp
+      - MISP_ADMIN_EMAIL=admin@seclab.local
+      - MISP_ADMIN_PASSPHRASE=admin
+      - MISP_BASEURL=https://localhost:8443
+    depends_on:
+      - misp-db
+    volumes:
+      - misp-data:/var/www/MISP
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+  # MISP Database
+  misp-db:
+    image: mysql:8.0
+    container_name: seclab-misp-db
+    environment:
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp
+      - MYSQL_ROOT_PASSWORD=misp_root
+    volumes:
+      - misp-db-data:/var/lib/mysql
+    networks:
+      - seclab-network
+    restart: unless-stopped
+    platform: linux/arm64
+
+volumes:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:
+  chroma-data:
+  grafana-data:
+  prometheus-data:
+  misp-data:
+  misp-db-data:
+
+networks:
+  seclab-network:
+    driver: bridge
+
+# Resource limits optimized for M4 Max (36GB RAM)
+# Approximate memory allocation:
+# - Agents (6): ~6GB
+# - Databases: ~4GB
+# - Ollama (host): ~8GB for llama3.1:8b or ~40GB for llama3.1:70b
+# - Web UI + Slack: ~1GB
+# - Monitoring: ~2GB
+# - System overhead: ~5GB
+# Total: ~26-58GB depending on model choice

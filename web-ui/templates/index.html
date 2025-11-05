@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecLab Control Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #1e293b;
+        }
+
+        h1 {
+            color: #60a5fa;
+            font-size: 32px;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-healthy {
+            background: #10b981;
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #60a5fa;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #334155;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .alert-item {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 4px solid;
+        }
+
+        .alert-critical {
+            background: #7f1d1d;
+            border-color: #dc2626;
+        }
+
+        .alert-high {
+            background: #7c2d12;
+            border-color: #ea580c;
+        }
+
+        .alert-medium {
+            background: #713f12;
+            border-color: #f59e0b;
+        }
+
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 8px;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .alert-id {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .agent-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: #0f172a;
+        }
+
+        .agent-info {
+            flex: 1;
+        }
+
+        .agent-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .agent-meta {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-running {
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+        }
+
+        .status-idle {
+            background: #6b7280;
+        }
+
+        .refresh-text {
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>🛡️ SecLab Control Panel</h1>
+                <p style="color: #64748b; margin-top: 8px;">AI-Powered Cybersecurity Home Lab</p>
+            </div>
+            <span class="status-badge status-healthy" id="status">● System Healthy</span>
+        </header>
+
+        <div class="stats-grid" id="stats">
+            <!-- Stats loaded dynamically -->
+        </div>
+
+        <div class="main-grid">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Recent Threat Alerts</h2>
+                    <button class="btn btn-primary" onclick="startHunt()">🎯 Start Hunt</button>
+                </div>
+                <div id="alerts">
+                    <!-- Alerts loaded dynamically -->
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">AI Agents</h2>
+                </div>
+                <div id="agents">
+                    <!-- Agents loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <div class="refresh-text">
+            Auto-refreshing every 30 seconds | <a href="/docs" style="color: #60a5fa;">API Documentation</a>
+        </div>
+    </div>
+
+    <script>
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                // Load stats
+                const statsResponse = await fetch('/api/dashboard/stats');
+                const stats = await statsResponse.json();
+
+                const statsHTML = `
+                    <div class="stat-card">
+                        <div class="stat-label">Active Threats</div>
+                        <div class="stat-value">${stats.active_threats}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Incidents Today</div>
+                        <div class="stat-value">${stats.incidents_today}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Critical Alerts</div>
+                        <div class="stat-value">${stats.critical_alerts}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Detection Rate</div>
+                        <div class="stat-value">${stats.detection_rate}%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Agents Running</div>
+                        <div class="stat-value">${stats.agents_running}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">IOCs Collected</div>
+                        <div class="stat-value">${stats.iocs_collected}</div>
+                    </div>
+                `;
+                document.getElementById('stats').innerHTML = statsHTML;
+
+                // Load alerts
+                const alertsResponse = await fetch('/api/threats/recent');
+                const alerts = await alertsResponse.json();
+
+                const alertsHTML = alerts.map(alert => `
+                    <div class="alert-item alert-${alert.severity}">
+                        <div class="alert-header">
+                            <div class="alert-title">${alert.threat_type}</div>
+                            <div class="alert-id">${alert.alert_id}</div>
+                        </div>
+                        <div>${alert.description}</div>
+                        <div style="margin-top: 8px; font-size: 12px; color: #94a3b8;">
+                            Status: ${alert.status} | ${alert.severity}
+                        </div>
+                    </div>
+                `).join('');
+                document.getElementById('alerts').innerHTML = alertsHTML || '<p style="color: #64748b;">No recent alerts</p>';
+
+                // Load agents
+                const agentsResponse = await fetch('/api/agents/status');
+                const agents = await agentsResponse.json();
+
+                const agentsHTML = agents.map(agent => `
+                    <div class="agent-item">
+                        <div class="agent-info">
+                            <div class="agent-name">
+                                <span class="status-dot status-${agent.status}"></span>
+                                ${agent.name}
+                            </div>
+                            <div class="agent-meta">
+                                Last run: ${agent.last_run} | Success: ${agent.success_rate}%
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                document.getElementById('agents').innerHTML = agentsHTML;
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                document.getElementById('status').className = 'status-badge';
+                document.getElementById('status').style.background = '#dc2626';
+                document.getElementById('status').textContent = '● Error Loading Data';
+            }
+        }
+
+        // Start threat hunt
+        async function startHunt() {
+            const hypothesis = prompt('Enter hunting hypothesis (or leave blank for general hunt):');
+
+            try {
+                const response = await fetch('/api/hunt/start', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({hypothesis: hypothesis || 'General threat hunting'})
+                });
+
+                const result = await response.json();
+                alert(`🎯 Hunt started!\nHunt ID: ${result.hunt_id}`);
+            } catch (error) {
+                alert('❌ Failed to start hunt: ' + error.message);
+            }
+        }
+
+        // Initial load
+        loadDashboard();
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadDashboard, 30000);
+    </script>
+</body>
+</html>

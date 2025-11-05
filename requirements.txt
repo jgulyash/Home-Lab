@@ -59,3 +59,12 @@ rich>=13.5.0
 click>=8.1.0
 tenacity>=8.2.0
 python-multipart>=0.0.6
+
+# Slack Bot
+slack-bolt>=1.18.0
+slack-sdk>=3.23.0
+
+# Web UI
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.4.0
